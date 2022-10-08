@@ -27,4 +27,9 @@ async function createCourse() {
   console.log(result);
 }
 
-createCourse();
+async function getCourses() {
+  const course = await Course.find(); //gets all data in the db
+  console.log(course);
+}
+
+getCourses();
