@@ -28,7 +28,7 @@ async function createCourse() {
 }
 
 async function getCourses() {
-  const course = await Course.find(); //gets all data in the db
+  const course = await Course.find({ author: "Ben", isPublished: true }); 
   console.log(course);
 }
 
