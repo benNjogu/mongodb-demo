@@ -12,3 +12,11 @@ mongoose
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
   });
+
+const Course = mongoose.model("Course", courseSchema);
+const course = new Course({
+  name: "Spring boot course",
+  author: "Ben",
+  tags: ["Spring", "Boot"],
+  isPublished: true,
+});
