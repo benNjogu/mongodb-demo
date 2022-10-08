@@ -14,9 +14,17 @@ mongoose
   });
 
 const Course = mongoose.model("Course", courseSchema);
-const course = new Course({
-  name: "Spring boot course",
-  author: "Ben",
-  tags: ["Spring", "Boot"],
-  isPublished: true,
-});
+
+async function createCourse() {
+  const course = new Course({
+    name: "Android course",
+    author: "Tim Buchalka",
+    tags: ["Android", "ReactNative"],
+    isPublished: true,
+  });
+
+  const result = await course.save();
+  console.log(result);
+}
+
+createCourse();
