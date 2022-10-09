@@ -22,13 +22,8 @@ mongoose
     tags: {
       type: Array,
       validate: {
-        isAsync: true,
-        validator: function (v, callback) {
-          setTimeout(() => {
-            //Do some async work
-            const result = v && v.length > 0;
-            callback(result);
-          }, 4000);
+        validator: function (v) {
+          return v && v.length > 0;
         },
         message: "A course should have atleast one tag.",
       },
@@ -49,8 +44,8 @@ mongoose
     const course = new Course({
       name: "Android course",
       author: "Tim",
-      category: "mobile",
-      tags: [],
+      category: "-",
+      tags: null,
       isPublished: false,
       price: 50,
     });
@@ -65,8 +60,8 @@ mongoose
        */
       const result = await course.save();
       console.log(result);
-    } catch (error) {
-      console.log(error.message);
+    } catch (err) {
+      for (field in err.errors) console.log(err.errors[field].message);
     }
   }
 
