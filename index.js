@@ -6,33 +6,60 @@ mongoose
   .catch((err) => console.error("Could not connect to mongoDB...", err));
 
   const courseSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+      minLength: 5,
+      maxLength: 255,
+      //match: /pattern/
+    },
     author: String,
-    tags: [String],
+    category: {
+      type: String,
+      required: true,
+      enum: ["web", "mobile", "network"],
+    },
+    tags: {
+      type: Array,
+      validate: {
+        validator: function (v) {
+          return v && v.length > 0;
+        },
+        message: "A course should have atleast one tag.",
+      },
+    },
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
+    price: {
+      type: Number,
+      required: function () {
+        return this.isPublished;
+      },
+    },
   });
 
   const Course = mongoose.model("Course", courseSchema);
 
   async function createCourse() {
     const course = new Course({
-      // name: "ReactNative course",
-      author: "Ben",
-      tags: ["React", "Native"],
-      isPublished: true,
+      name: "Android course",
+      author: "Tim",
+      category: "mobile",
+      tags: null,
+      isPublished: false,
+      price: 50,
     });
 
     try {
-      await course.validate(); //this returns a void promise
+      //await course.validate(); //this returns a void promise
       /**
        * The only way to make return, is by using a callback function as shown below
        * course.validate((err) => {
           if(err) {}
        * })
        */
-      //const result = await course.save();
-      //console.log(result);
+      const result = await course.save();
+      console.log(result);
     } catch (error) {
       console.log(error.message);
     }
