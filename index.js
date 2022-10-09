@@ -39,4 +39,25 @@ async function getCourses() {
   console.log(course);
 }
 
-getCourses();
+async function updateCourse(id) {
+  //Approach: Query first
+  //findById()
+  //Modify its properties
+  //save()
+  const course = await Course.findById(id);
+  if (!course) return;
+  course.set({
+    name: "Sapiens",
+    tags: [
+      "Cognitive revolution",
+      "Agricultural revolution",
+      "Scientific revolution",
+    ],
+    isPublished: true,
+    author: "Yuval Noah",
+  });
+  const result = await course.save();
+  console.log(result);
+}
+
+updateCourse("634191f9e9195877f4ce1bf9");
