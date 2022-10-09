@@ -35,7 +35,10 @@ async function getCourses() {
     //.find({ author: /^Ben/ })
 
     //ends with Buchalka
-    .find({ author: /buchalka$/i }) //The i makes it case insensitive
+    //.find({ author: /buchalka$/i }) //The i makes it case insensitive
+
+    //whose author contains the word Tim
+    .find({ author: /.*tim.*/i })
     .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
