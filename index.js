@@ -28,10 +28,14 @@ async function createCourse() {
 }
 
 async function getCourses() {
+  const pageNumber = 2;
+  const pageSize = 10;
+
   const course = await Course.find({ author: "Ben", isPublished: true })
-    .limit(10)
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
     .sort({ name: 1 })
-    .count();
+    .select({ name: 1, tags: 1 });
   console.log(course);
 }
 
