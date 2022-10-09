@@ -6,26 +6,39 @@ mongoose
   .catch((err) => console.error("Could not connect to mongoDB...", err));
 
   const courseSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
   });
 
-const Course = mongoose.model("Course", courseSchema);
+  const Course = mongoose.model("Course", courseSchema);
 
-async function createCourse() {
-  const course = new Course({
-    name: "ReactNative course",
-    author: "Ben",
-    tags: ["React", "Native"],
-    isPublished: true,
-  });
+  async function createCourse() {
+    const course = new Course({
+      // name: "ReactNative course",
+      author: "Ben",
+      tags: ["React", "Native"],
+      isPublished: true,
+    });
 
-  const result = await course.save();
-  console.log(result);
-}
+    try {
+      await course.validate(); //this returns a void promise
+      /**
+       * The only way to make return, is by using a callback function as shown below
+       * course.validate((err) => {
+          if(err) {}
+       * })
+       */
+      //const result = await course.save();
+      //console.log(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  createCourse();
 
 async function getCourses() {
   const pageNumber = 2;
@@ -62,5 +75,3 @@ async function removeCourse(id) {
   const course = await Course.findOneAndRemove(id);
   console.log(course);
 }
-
-removeCourse("634191f9e9195877f4ce1bf9");
