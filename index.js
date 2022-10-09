@@ -43,12 +43,16 @@ async function updateCourse(id) {
   //Approach: Update first
   //Upate directly
   //Optionally: get the updated document
-  const result = await Course.findByIdAndUpdate(id, {
-    $set: {
-      author: "Yuval Noah Harari",
-      isPublished: true,
+  const result = await Course.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        author: "Yuval Noah Harari",
+        isPublished: true,
+      },
     },
-  });
+    { new: true }
+  );
 
   console.log(result);
 }
