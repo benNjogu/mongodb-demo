@@ -40,23 +40,19 @@ async function getCourses() {
 }
 
 async function updateCourse(id) {
-  //Approach: Query first
-  //findById()
-  //Modify its properties
-  //save()
-  const course = await Course.findById(id);
-  if (!course) return;
-  course.set({
-    name: "Sapiens",
-    tags: [
-      "Cognitive revolution",
-      "Agricultural revolution",
-      "Scientific revolution",
-    ],
-    isPublished: true,
-    author: "Yuval Noah",
-  });
-  const result = await course.save();
+  //Approach: Update first
+  //Upate directly
+  //Optionally: get the updated document
+  const result = await Course.update(
+    { _id: id },
+    {
+      $set: {
+        author: "Yuval Noah Harari",
+        isPublished: false,
+      },
+    }
+  );
+
   console.log(result);
 }
 
