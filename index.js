@@ -22,8 +22,13 @@ mongoose
     tags: {
       type: Array,
       validate: {
-        validator: function (v) {
-          return v && v.length > 0;
+        isAsync: true,
+        validator: function (v, callback) {
+          setTimeout(() => {
+            //Do some async work
+            const result = v && v.length > 0;
+            callback(result);
+          }, 4000);
         },
         message: "A course should have atleast one tag.",
       },
@@ -45,7 +50,7 @@ mongoose
       name: "Android course",
       author: "Tim",
       category: "mobile",
-      tags: null,
+      tags: [],
       isPublished: false,
       price: 50,
     });
