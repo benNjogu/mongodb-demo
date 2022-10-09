@@ -28,20 +28,10 @@ async function createCourse() {
 }
 
 async function getCourses() {
-  const course = await Course
-    //.find({ author: "Ben", isPublished: true })
-
-    //author starts with Ben
-    //.find({ author: /^Ben/ })
-
-    //ends with Buchalka
-    //.find({ author: /buchalka$/i }) //The i makes it case insensitive
-
-    //whose author contains the word Tim
-    .find({ author: /.*tim.*/i })
+  const course = await Course.find({ author: "Ben", isPublished: true })
     .limit(10)
     .sort({ name: 1 })
-    .select({ name: 1, tags: 1 });
+    .count();
   console.log(course);
 }
 
