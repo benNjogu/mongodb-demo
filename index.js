@@ -18,6 +18,9 @@ mongoose
       type: String,
       required: true,
       enum: ["web", "mobile", "network"],
+      lowercase: true,
+      //toUppercase: true,
+      trim: true,
     },
     tags: {
       type: Array,
@@ -35,6 +38,10 @@ mongoose
       required: function () {
         return this.isPublished;
       },
+      min: 10,
+      max: 200,
+      get: (v) => Math.round(v),
+      set: (v) => Math.round(v),
     },
   });
 
@@ -44,10 +51,10 @@ mongoose
     const course = new Course({
       name: "Android course",
       author: "Tim",
-      category: "-",
-      tags: null,
+      category: "MOBILE",
+      tags: ["frontend"],
       isPublished: false,
-      price: 50,
+      price: 50.83,
     });
 
     try {
@@ -65,19 +72,21 @@ mongoose
     }
   }
 
-  createCourse();
+  // createCourse();
 
-async function getCourses() {
-  const pageNumber = 2;
-  const pageSize = 10;
+  async function getCourses() {
+    const pageNumber = 2;
+    const pageSize = 10;
 
-  const course = await Course.find({ author: "Ben", isPublished: true })
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
-    .sort({ name: 1 })
-    .select({ name: 1, tags: 1 });
-  console.log(course);
-}
+    const course = await Course.find({ _id: "634304da0e358ce9fa99269b" })
+      //.skip((pageNumber - 1) * pageSize)
+      //.limit(pageSize)
+      .sort({ name: 1 })
+      .select({ name: 1, tags: 1, price: 1 });
+    console.log(course[0].price);
+  }
+
+  getCourses();
 
 async function updateCourse(id) {
   //Approach: Update first
