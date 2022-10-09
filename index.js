@@ -28,14 +28,11 @@ async function createCourse() {
 }
 
 async function getCourses() {
-  /**
-   * or
-   * and
-   */
   const course = await Course
     //.find({ author: "Ben", isPublished: true })
-    .find()
-    .or({ author: "Ben" }, { isPublished: true })
+
+    //author starts with Ben
+    .find({ author: /^Ben/ })
     .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
